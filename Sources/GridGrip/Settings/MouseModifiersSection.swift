@@ -102,12 +102,21 @@ enum SettingsLabels {
         return label
     }
 
-    /// 평소 비어 있는 경고 줄.
+    private static let warningIdentifier = NSUserInterfaceItemIdentifier("settings.warning")
+
+    /// 평소 비어 있는 경고 줄. 긴 문구가 와도 창을 넓히지 않고 섹션 폭에서 줄바꿈한다 —
+    /// 가로 압축 저항을 창 맞춤 우선순위(50)보다 낮게 두고, 줄바꿈 폭은 설정 창이 창 폭을 정한 뒤 넣는다.
     static func warning() -> NSTextField {
         let label = NSTextField(wrappingLabelWithString: "")
         label.textColor = .systemOrange
         label.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
-        label.preferredMaxLayoutWidth = 560
+        label.identifier = warningIdentifier
+        label.setContentCompressionResistancePriority(NSLayoutConstraint.Priority(49), for: .horizontal)
         return label
+    }
+
+    static func warningLabels(in view: NSView) -> [NSTextField] {
+        let own = (view as? NSTextField).flatMap { $0.identifier == warningIdentifier ? [$0] : nil } ?? []
+        return own + view.subviews.flatMap { warningLabels(in: $0) }
     }
 }

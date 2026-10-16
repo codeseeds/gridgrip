@@ -197,14 +197,24 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Shor
 
     /// 경고 줄·로그인 안내가 나타나거나 사라지면 창 높이를 내용에 맞춘다(위쪽 가장자리는 그대로).
     /// 맞추지 않으면 남는 높이가 단축키 격자 줄 사이에 끼어 간격이 벌어진다.
+    /// 1차로 창 폭을 정하고(경고 줄은 폭을 넓히지 않는다), 경고 줄을 그 섹션 폭에서 줄바꿈시킨 뒤 2차로 높이를 잰다.
     private func fitWindowToContent() {
         guard didBuildWindow, let window, let content = window.contentView else { return }
+        resize(window, toContent: content)
+        for label in SettingsLabels.warningLabels(in: content) {
+            label.preferredMaxLayoutWidth = label.superview?.frame.width ?? 0
+        }
+        resize(window, toContent: content)
+    }
+
+    private func resize(_ window: NSWindow, toContent content: NSView) {
         content.layoutSubtreeIfNeeded()
         let size = content.fittingSize
         guard size != content.frame.size else { return }
         var frame = window.frameRect(forContentRect: NSRect(origin: .zero, size: size))
         frame.origin = NSPoint(x: window.frame.minX, y: window.frame.maxY - frame.height)
         window.setFrame(frame, display: true)
+        content.layoutSubtreeIfNeeded()
     }
 
     // MARK: - 로그인 항목
