@@ -16,9 +16,9 @@ public enum SettingsMenuSpec {
     public static let settingsID = "preferences.settings"
     public static let loginItemID = "preferences.loginItem"
 
-    public static let disableMenuTitle = "끄기"
-    public static let pauseTitle = "잠시 끄기"
-    public static let excludeUnavailableTitle = "이 앱에서 끄기"
+    public static var disableMenuTitle: String { L10n.tr("Turn Off") }
+    public static var pauseTitle: String { L10n.tr("Pause") }
+    public static var excludeUnavailableTitle: String { L10n.tr("Turn Off in This App") }
     /// 다른 앱이 스스로 정한 표시 이름을 메뉴에 넣을 때의 최대 글자 수.
     public static let maxAppNameLength = 40
 
@@ -50,7 +50,7 @@ public enum SettingsMenuSpec {
         if let app = frontmostApp, !app.bundleID.isEmpty,
            app.bundleID.caseInsensitiveCompare(selfBundleID) != .orderedSame {
             let isExcluded = ActivationPolicy(excludedBundleIDs: excludedBundleIDs).isExcluded(bundleIdentifier: app.bundleID)
-            exclude = .item(spec: MenuItemSpec(id: excludeFrontmostID, title: "\"\(truncated(app.name))\"에서 끄기"),
+            exclude = .item(spec: MenuItemSpec(id: excludeFrontmostID, title: L10n.tr("Turn Off in \"%@\"", truncated(app.name))),
                             isChecked: isExcluded, action: nil)
         } else {
             exclude = .item(spec: MenuItemSpec(id: excludeFrontmostID, title: excludeUnavailableTitle, isEnabled: false),
@@ -61,8 +61,8 @@ public enum SettingsMenuSpec {
 
     public static func preferences(loginItem: LoginItemPresentation) -> [SettingsMenuItem] {
         [
-            .item(spec: MenuItemSpec(id: aboutID, title: "\(AppIdentity.displayName) 정보"), isChecked: nil, action: nil),
-            .item(spec: MenuItemSpec(id: settingsID, title: "설정…", keyEquivalent: ",", modifiers: [.command]),
+            .item(spec: MenuItemSpec(id: aboutID, title: L10n.tr("About %@", AppIdentity.displayName)), isChecked: nil, action: nil),
+            .item(spec: MenuItemSpec(id: settingsID, title: L10n.tr("Settings…"), keyEquivalent: ",", modifiers: [.command]),
                   isChecked: nil, action: nil),
             .item(spec: MenuItemSpec(id: loginItemID, title: SettingsFormLayout.loginItemTitle, isEnabled: loginItem.isEnabled),
                   isChecked: loginItem.isChecked, action: nil),

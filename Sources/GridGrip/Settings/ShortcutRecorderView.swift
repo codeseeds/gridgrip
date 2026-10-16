@@ -63,7 +63,7 @@ final class ShortcutRecorderView: NSView {
 
         clearButton.bezelStyle = .inline
         clearButton.isBordered = false
-        clearButton.image = NSImage(systemSymbolName: "xmark.circle.fill", accessibilityDescription: "지우기")
+        clearButton.image = NSImage(systemSymbolName: "xmark.circle.fill", accessibilityDescription: L10n.tr("Clear"))
         clearButton.imagePosition = .imageOnly
         clearButton.contentTintColor = .tertiaryLabelColor
         clearButton.refusesFirstResponder = true

@@ -50,18 +50,18 @@ final class SettingsMenuSpecTests: XCTestCase {
         let safari = (name: "Safari", bundleID: "com.apple.Safari")
 
         let notExcluded = excludeItem(control(frontmost: safari))
-        XCTAssertEqual(notExcluded.spec.title, "\"Safari\"에서 끄기")
+        XCTAssertEqual(notExcluded.spec.title, "Turn Off in \"Safari\"")
         XCTAssertEqual(notExcluded.isChecked, false)
         XCTAssertTrue(notExcluded.spec.isEnabled)
 
         XCTAssertEqual(excludeItem(control(excluded: ["com.apple.Safari"], frontmost: safari)).isChecked, true)
 
         let none = excludeItem(control(frontmost: nil))
-        XCTAssertEqual(none.spec.title, "이 앱에서 끄기")
+        XCTAssertEqual(none.spec.title, "Turn Off in This App")
         XCTAssertFalse(none.spec.isEnabled)
 
         let ourselves = excludeItem(control(frontmost: (name: AppIdentity.displayName, bundleID: selfID)))
-        XCTAssertEqual(ourselves.spec.title, "이 앱에서 끄기")
+        XCTAssertEqual(ourselves.spec.title, "Turn Off in This App")
         XCTAssertFalse(ourselves.spec.isEnabled)
     }
 
@@ -69,9 +69,9 @@ final class SettingsMenuSpecTests: XCTestCase {
     func testLongAppNameTruncated() {
         let longName = String(repeating: "가", count: 60)
         let item = excludeItem(control(frontmost: (name: longName, bundleID: "com.example.long")))
-        XCTAssertEqual(item.spec.title, "\"\(String(repeating: "가", count: 40))…\"에서 끄기")
+        XCTAssertEqual(item.spec.title, "Turn Off in \"\(String(repeating: "가", count: 40))…\"")
         let exact = String(repeating: "나", count: 40)
-        XCTAssertEqual(excludeItem(control(frontmost: (name: exact, bundleID: "com.example.exact"))).spec.title, "\"\(exact)\"에서 끄기")
+        XCTAssertEqual(excludeItem(control(frontmost: (name: exact, bundleID: "com.example.exact"))).spec.title, "Turn Off in \"\(exact)\"")
     }
 
     func testPausedDisablesActions() {
@@ -119,15 +119,15 @@ final class SettingsMenuSpecTests: XCTestCase {
     func testOrder() {
         let arrange = SettingsMenuSpec.arrange(bindings: defaults, isPaused: false)
         XCTAssertEqual(describe(arrange), [
-            "좌상단", "상단", "우상단", "좌측", "가운데", "우측", "좌하단", "하단", "우하단", "─",
-            "전체화면 채우기", "─", "왼쪽 모니터로", "오른쪽 모니터로",
+            "Top Left", "Top", "Top Right", "Left", "Center", "Right", "Bottom Left", "Bottom", "Bottom Right", "─",
+            "Fill Screen", "─", "Previous Display", "Next Display",
         ])
         let history = SettingsMenuSpec.history(bindings: defaults, isPaused: false, canUndo: true, canRedo: true)
-        XCTAssertEqual(describe(history), ["되돌리기", "다시하기"])
+        XCTAssertEqual(describe(history), ["Undo", "Redo"])
         let control = control(frontmost: (name: "Safari", bundleID: "com.apple.Safari"))
-        XCTAssertEqual(describe(control), ["끄기 ▸(잠시 끄기, \"Safari\"에서 끄기)"])
+        XCTAssertEqual(describe(control), ["Turn Off ▸(Pause, Turn Off in \"Safari\")"])
         let preferences = SettingsMenuSpec.preferences(loginItem: LoginItemPresentation.make(.enabled))
-        XCTAssertEqual(describe(preferences), ["GridGrip 정보", "설정…", "로그인 시 실행"])
+        XCTAssertEqual(describe(preferences), ["About GridGrip", "Settings…", "Launch at Login"])
         let settingsItem = specs(preferences).first { $0.spec.id == SettingsMenuSpec.settingsID }!.spec
         XCTAssertEqual(settingsItem.keyEquivalent, ",")
         XCTAssertEqual(settingsItem.modifiers, [.command])
@@ -146,7 +146,7 @@ final class SettingsMenuSpecTests: XCTestCase {
             }
         }
         XCTAssertEqual(flattened, describe(arrange) + ["═"] + describe(history) + ["═"] + describe(control)
-            + ["═"] + describe(preferences) + ["═", "GridGrip 종료"])
+            + ["═"] + describe(preferences) + ["═", "Quit GridGrip"])
     }
 
     func testShortcutDisplay() {

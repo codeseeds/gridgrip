@@ -10,9 +10,9 @@ public enum SettingsSection: CaseIterable, Equatable {
 
     public var title: String? {
         switch self {
-        case .shortcuts: return "키보드 배치 단축키"
-        case .mouse: return "마우스로 창 다루기"
-        case .excludedApps: return "이 앱에서는 끄기"
+        case .shortcuts: return L10n.tr("Keyboard Shortcuts")
+        case .mouse: return L10n.tr("Move & Resize with Mouse")
+        case .excludedApps: return L10n.tr("Excluded Apps")
         case .general: return nil
         }
     }
@@ -34,38 +34,39 @@ public enum SettingsFormLayout {
     }
 
     public static let mouseModifierOrder: [MouseModifierSet] = [.shift, .fn, .control, .option, .command]
-    public static let mouseRows: [(target: SettingsMouseTarget, title: String)] = [(.move, "이동"), (.resize, "크기조정")]
-    public static let bringWindowToFrontTitle = "창을 잡을 때 그 앱을 앞으로 가져오기"
+    public static var mouseRows: [(target: SettingsMouseTarget, title: String)] { [(.move, L10n.tr("Move")), (.resize, L10n.tr("Resize"))] }
+    public static var bringWindowToFrontTitle: String { L10n.tr("Bring the app to the front when grabbing its window") }
 
-    public static let windowTitle = "\(AppIdentity.displayName) 설정"
-    public static let emptyShortcutPlaceholder = "단축키 녹화"
-    public static let recordingPrompt = "키를 누르세요…"
-    public static let noModifierMessage = "⌃·⌥·⌘ 중 하나 이상을 함께 눌러야 합니다"
-    public static let reservedComboMessage = "시스템에서 쓰는 단축키라 사용할 수 없습니다"
-    public static let registrationFailureMessage = "다른 앱이 이미 사용 중일 수 있습니다"
-    public static let optionOnlyAdvisory = "⌥만(또는 ⌥⇧) 쓰는 조합은 다른 앱의 특수문자 입력을 가로챌 수 있습니다"
-    public static let loginItemTitle = "로그인 시 실행"
-    public static let openSystemSettingsTitle = "시스템 설정 열기"
-    public static let restoreDefaultsTitle = "기본값 복원…"
-    public static let restoreDefaultsConfirmation =
-        "키보드 단축키, 마우스 수정자, 창 앞으로 가져오기를 기본값으로 되돌립니다. 제외 앱 목록과 로그인 시 실행은 그대로 둡니다."
+    public static var windowTitle: String { L10n.tr("%@ Settings", AppIdentity.displayName) }
+    public static var emptyShortcutPlaceholder: String { L10n.tr("Record Shortcut") }
+    public static var recordingPrompt: String { L10n.tr("Press keys…") }
+    public static var noModifierMessage: String { L10n.tr("Include at least one of ⌃, ⌥ or ⌘") }
+    public static var reservedComboMessage: String { L10n.tr("This shortcut is reserved by the system") }
+    public static var registrationFailureMessage: String { L10n.tr("Another app may already be using this shortcut") }
+    public static var optionOnlyAdvisory: String { L10n.tr("Shortcuts with only ⌥ (or ⌥⇧) can block typing special characters in other apps") }
+    public static var loginItemTitle: String { L10n.tr("Launch at Login") }
+    public static var openSystemSettingsTitle: String { L10n.tr("Open System Settings") }
+    public static var restoreDefaultsTitle: String { L10n.tr("Restore Defaults…") }
+    public static var restoreDefaultsConfirmation: String {
+        L10n.tr("Resets keyboard shortcuts, mouse modifiers and bring-to-front to their defaults. Excluded apps and Launch at Login stay as they are.")
+    }
 
     public static func title(for action: WindowAction) -> String {
         switch action {
-        case .topLeft: return "좌상단"
-        case .top: return "상단"
-        case .topRight: return "우상단"
-        case .left: return "좌측"
-        case .center: return "가운데"
-        case .right: return "우측"
-        case .bottomLeft: return "좌하단"
-        case .bottom: return "하단"
-        case .bottomRight: return "우하단"
-        case .fill: return "전체화면 채우기"
-        case .previousDisplay: return "왼쪽 모니터로"
-        case .nextDisplay: return "오른쪽 모니터로"
-        case .undo: return "되돌리기"
-        case .redo: return "다시하기"
+        case .topLeft: return L10n.tr("Top Left")
+        case .top: return L10n.tr("Top")
+        case .topRight: return L10n.tr("Top Right")
+        case .left: return L10n.tr("Left")
+        case .center: return L10n.tr("Center")
+        case .right: return L10n.tr("Right")
+        case .bottomLeft: return L10n.tr("Bottom Left")
+        case .bottom: return L10n.tr("Bottom")
+        case .bottomRight: return L10n.tr("Bottom Right")
+        case .fill: return L10n.tr("Fill Screen")
+        case .previousDisplay: return L10n.tr("Previous Display")
+        case .nextDisplay: return L10n.tr("Next Display")
+        case .undo: return L10n.tr("Undo")
+        case .redo: return L10n.tr("Redo")
         }
     }
 
@@ -83,13 +84,13 @@ public enum SettingsFormLayout {
 
     public static func message(for error: MouseDragSettingsError) -> String {
         switch error {
-        case .emptyMoveModifiers, .emptyResizeModifiers: return "수정자를 하나 이상 선택해야 합니다"
-        case .identicalModifiers: return "이동과 크기조정은 서로 다른 조합이어야 합니다"
+        case .emptyMoveModifiers, .emptyResizeModifiers: return L10n.tr("Select at least one modifier")
+        case .identicalModifiers: return L10n.tr("Move and Resize need different modifier combinations")
         }
     }
 
     public static func conflictMessage(_ actions: [WindowAction]) -> String {
-        "'\(actions.map(title(for:)).joined(separator: "', '"))'에서 이미 쓰는 단축키입니다"
+        L10n.tr("Already used by '%@'", actions.map(title(for:)).joined(separator: "', '"))
     }
 
     /// 적용은 되지만 알려 둘 점이 있는 조합의 안내(⌥ 단독·⌥⇧ 조합).

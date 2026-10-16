@@ -58,9 +58,12 @@ Download the latest `GridGrip-x.y.z.dmg` from [Releases](https://github.com/code
 
 ### First launch
 
-GridGrip moves other apps' windows, so macOS asks for **Accessibility** permission on first launch:
+GridGrip moves other apps' windows, so it needs permission to control your Mac. On first launch it shows a prompt whose **Open System Settings** button takes you straight to the right place. Turn on GridGrip there:
 
-**System Settings → Privacy & Security → Accessibility → enable GridGrip**
+- macOS 27 and later: **System Settings → Privacy & Security → Device Control and Data Access**
+- macOS 13–26: **System Settings → Privacy & Security → Accessibility**
+
+GridGrip is available in English and Korean and follows your macOS language.
 
 If you also run another window manager that uses the same shortcuts, quit it to avoid conflicts. GridGrip warns you when Spectacle is running.
 

@@ -20,6 +20,7 @@ mkdir -p "$APP_DIR/Contents/MacOS" "$APP_DIR/Contents/Resources"
 cp "$BIN" "$APP_DIR/Contents/MacOS/$EXECUTABLE"
 cp "$ROOT/Support/Info.plist" "$APP_DIR/Contents/Info.plist"
 cp "$ROOT/Support/AppIcon.icns" "$APP_DIR/Contents/Resources/AppIcon.icns"
+cp -R "$ROOT/Support/Localization/"*.lproj "$APP_DIR/Contents/Resources/"
 
 if [ "$SIGN_IDENTITY" = "-" ]; then
     codesign --force --options runtime --sign - --timestamp=none "$APP_DIR"

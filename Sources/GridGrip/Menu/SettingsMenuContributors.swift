@@ -184,7 +184,7 @@ final class PreferencesMenuContributor: MenuContributor {
         let alert = NSAlert()
         alert.messageText = SettingsFormLayout.loginItemTitle
         alert.informativeText = message
-        alert.addButton(withTitle: "확인")
+        alert.addButton(withTitle: L10n.tr("OK"))
         if showsOpenSettings {
             alert.addButton(withTitle: SettingsFormLayout.openSystemSettingsTitle)
         }

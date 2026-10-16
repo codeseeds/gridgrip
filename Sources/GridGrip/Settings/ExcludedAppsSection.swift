@@ -34,7 +34,7 @@ final class ExcludedAppsSection: NSObject, NSTableViewDataSource, NSTableViewDel
 
     private func makeView() -> NSView {
         let columns: [(NSUserInterfaceItemIdentifier, String, CGFloat)] = [
-            (Column.icon, "", 24), (Column.name, "앱 이름", 180), (Column.bundleID, "번들 ID", 280),
+            (Column.icon, "", 24), (Column.name, L10n.tr("App Name"), 180), (Column.bundleID, L10n.tr("Bundle ID"), 280),
         ]
         for (id, title, width) in columns {
             let column = NSTableColumn(identifier: id)
@@ -56,9 +56,9 @@ final class ExcludedAppsSection: NSObject, NSTableViewDataSource, NSTableViewDel
         scroll.heightAnchor.constraint(equalToConstant: 110).isActive = true
         scroll.widthAnchor.constraint(equalToConstant: 520).isActive = true
 
-        let addButton = NSButton(image: NSImage(systemSymbolName: "plus", accessibilityDescription: "앱 추가")!,
+        let addButton = NSButton(image: NSImage(systemSymbolName: "plus", accessibilityDescription: L10n.tr("Add App"))!,
                                  target: self, action: #selector(addClicked(_:)))
-        removeButton.image = NSImage(systemSymbolName: "minus", accessibilityDescription: "선택한 앱 삭제")
+        removeButton.image = NSImage(systemSymbolName: "minus", accessibilityDescription: L10n.tr("Remove Selected App"))
         removeButton.bezelStyle = addButton.bezelStyle
         removeButton.target = self
         removeButton.action = #selector(removeClicked(_:))
@@ -100,11 +100,11 @@ final class ExcludedAppsSection: NSObject, NSTableViewDataSource, NSTableViewDel
             messageLabel.stringValue = ""
             activation.update(excludedBundleIDs: settings.excludedBundleIDs)
         case .duplicate:
-            messageLabel.stringValue = "이미 목록에 있는 앱입니다"
+            messageLabel.stringValue = L10n.tr("This app is already in the list")
         case .rejectedSelf:
-            messageLabel.stringValue = "\(AppIdentity.displayName) 자신은 추가할 수 없습니다"
+            messageLabel.stringValue = L10n.tr("%@ itself can't be added", AppIdentity.displayName)
         case .rejectedEmpty:
-            messageLabel.stringValue = "번들 ID를 읽을 수 없는 앱입니다"
+            messageLabel.stringValue = L10n.tr("Couldn't read this app's bundle ID")
         }
     }
 

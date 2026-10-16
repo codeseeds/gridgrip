@@ -49,7 +49,7 @@ func render(scale: CGFloat, to url: URL) throws {
 
     drawCentered("Drag GridGrip to Applications to install",
                  font: .systemFont(ofSize: 16, weight: .semibold), color: titleColor, top: 268)
-    drawCentered("Then open GridGrip and allow Accessibility access in System Settings.",
+    drawCentered("Then open GridGrip and turn it on in the System Settings page it opens.",
                  font: .systemFont(ofSize: 12), color: subtitleColor, top: 294)
 
     NSGraphicsContext.restoreGraphicsState()

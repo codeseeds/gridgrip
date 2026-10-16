@@ -25,6 +25,8 @@ final class AppIdentityTests: XCTestCase {
         XCTAssertEqual(plist["CFBundleShortVersionString"] as? String, AppIdentity.version)
         XCTAssertEqual(plist["LSUIElement"] as? Bool, true)
         XCTAssertEqual(plist["LSMinimumSystemVersion"] as? String, "13.0")
+        XCTAssertEqual(plist["CFBundleDevelopmentRegion"] as? String, "en")
+        XCTAssertEqual(plist["CFBundleLocalizations"] as? [String], ["en", "ko"])
         XCTAssertEqual(plist["CFBundlePackageType"] as? String, "APPL")
     }
 }

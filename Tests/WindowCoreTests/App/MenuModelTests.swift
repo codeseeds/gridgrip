@@ -25,7 +25,7 @@ final class MenuModelTests: XCTestCase {
 
     func testDeniedMenu() {
         let entries = MenuLayout.compose([
-            .permission: BaseMenuSpec.permissionSection(.denied),
+            .permission: BaseMenuSpec.permissionSection(.denied, osMajorVersion: 26),
             .app: BaseMenuSpec.appSection(),
         ])
         XCTAssertEqual(entries.count, 4)
@@ -35,11 +35,16 @@ final class MenuModelTests: XCTestCase {
               case .separator = entries[2],
               case let .item(quit) = entries[3]
         else { return XCTFail("메뉴 구성 불일치: \(entries)") }
-        XCTAssertEqual(warning.title, "⚠︎ 손쉬운 사용 권한이 필요합니다")
+        XCTAssertEqual(warning.title, "⚠︎ Accessibility permission required")
         XCTAssertFalse(warning.isEnabled)
-        XCTAssertEqual(open.title, "시스템 설정 열기…")
+        XCTAssertEqual(open.title, "Open System Settings…")
         XCTAssertTrue(open.isEnabled)
-        XCTAssertEqual(quit.title, "GridGrip 종료")
+        XCTAssertEqual(quit.title, "Quit GridGrip")
+    }
+
+    func testDeniedMenuUsesMacOS27PermissionName() {
+        XCTAssertEqual(BaseMenuSpec.permissionSection(.denied, osMajorVersion: 27).first?.title,
+                       "⚠︎ Device Control and Data Access permission required")
     }
 
     func testGrantedMenu() {
@@ -50,7 +55,7 @@ final class MenuModelTests: XCTestCase {
         ])
         XCTAssertEqual(entries.count, 1)
         guard case let .item(quit)? = entries.first else { return XCTFail("종료 항목 없음") }
-        XCTAssertEqual(quit.title, "GridGrip 종료")
+        XCTAssertEqual(quit.title, "Quit GridGrip")
         XCTAssertFalse(entries.contains(.separator))
     }
 

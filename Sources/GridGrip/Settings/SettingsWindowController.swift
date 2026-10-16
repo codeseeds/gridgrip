@@ -223,10 +223,10 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Shor
     @objc private func restoreDefaultsClicked(_ sender: NSButton) {
         guard didBuildWindow, let window else { return }
         let alert = NSAlert()
-        alert.messageText = "기본값을 복원할까요?"
+        alert.messageText = L10n.tr("Restore defaults?")
         alert.informativeText = SettingsFormLayout.restoreDefaultsConfirmation
-        alert.addButton(withTitle: "취소")
-        alert.addButton(withTitle: "복원")
+        alert.addButton(withTitle: L10n.tr("Cancel"))
+        alert.addButton(withTitle: L10n.tr("Restore"))
         alert.beginSheetModal(for: window) { [weak self] response in
             guard let self, response == .alertSecondButtonReturn else { return }
             do {
@@ -307,9 +307,10 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Shor
         let names = conflicts.map(SettingsFormLayout.title(for:)).joined(separator: "', '")
         let alert = NSAlert()
         alert.messageText = SettingsFormLayout.conflictMessage(conflicts)
-        alert.informativeText = "\(combo.displayString)을(를) '\(SettingsFormLayout.title(for: recorder.action))'에 쓰려면 '\(names)' 단축키를 지워야 합니다."
-        alert.addButton(withTitle: "취소")  // 첫 버튼 = 기본(Return). 실수로 Return을 눌러도 다른 동작이 지워지지 않는다.
-        alert.addButton(withTitle: "바꾸기 — '\(names)' 단축키는 지워집니다")
+        alert.informativeText = L10n.tr("To use %1$@ for '%2$@', the shortcut for '%3$@' must be cleared.",
+                                        combo.displayString, SettingsFormLayout.title(for: recorder.action), names)
+        alert.addButton(withTitle: L10n.tr("Cancel"))  // 첫 버튼 = 기본(Return). 실수로 Return을 눌러도 다른 동작이 지워지지 않는다.
+        alert.addButton(withTitle: L10n.tr("Replace — clears the shortcut for '%@'", names))
 
         // 시트가 붙으면 녹화 칸이 포커스를 잃는다. 이 동안은 녹화 종료로 보지 않는다.
         recorder.isAwaitingConflictDecision = true

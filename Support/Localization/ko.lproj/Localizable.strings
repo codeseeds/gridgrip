@@ -1,0 +1,84 @@
+/* GridGrip 한국어 번역. 키는 소스의 영어 원문(L10n.tr)과 정확히 같아야 한다 — L10nTests가 대조한다. */
+
+/* 메뉴바 메뉴 */
+"⚠︎ %@ permission required" = "⚠︎ %@ 권한이 필요합니다";
+"Open System Settings…" = "시스템 설정 열기…";
+"Quit %@" = "%@ 종료";
+"About %@" = "%@ 정보";
+"Settings…" = "설정…";
+"Turn Off" = "끄기";
+"Pause" = "잠시 끄기";
+"Turn Off in This App" = "이 앱에서 끄기";
+"Turn Off in \"%@\"" = "\"%@\"에서 끄기";
+
+/* 시스템 설정 경로 (macOS 버전별 이름) */
+"System Settings > Privacy & Security > %@" = "시스템 설정 > 개인정보 보호 및 보안 > %@";
+"Accessibility" = "손쉬운 사용";
+"Device Control and Data Access" = "기기 제어 및 데이터 접근";
+"System Settings > General > %@" = "시스템 설정 > 일반 > %@";
+"Login Items" = "로그인 항목";
+"Login Items & Extensions" = "로그인 항목 및 확장 프로그램";
+
+/* 대화상자 */
+"%1$@ needs %2$@ permission" = "%1$@에 %2$@ 권한이 필요합니다";
+"To move and resize windows, turn on %1$@ in %2$@." = "창을 옮기고 크기를 바꾸려면 %2$@에서 %1$@을 켜 주세요.";
+"Later" = "나중에";
+"Another window manager is running" = "기존 창 관리 앱이 실행 중입니다";
+"While %@ is running, shortcuts may conflict. Quitting it is recommended." = "%@이(가) 실행 중이면 단축키가 겹칠 수 있습니다. 해당 앱을 종료하는 것을 권장합니다.";
+"OK" = "확인";
+"Cancel" = "취소";
+"Restore defaults?" = "기본값을 복원할까요?";
+"Restore" = "복원";
+"To use %1$@ for '%2$@', the shortcut for '%3$@' must be cleared." = "%1$@을(를) '%2$@'에 쓰려면 '%3$@' 단축키를 지워야 합니다.";
+"Replace — clears the shortcut for '%@'" = "바꾸기 — '%@' 단축키는 지워집니다";
+
+/* 설정 창 */
+"%@ Settings" = "%@ 설정";
+"Keyboard Shortcuts" = "키보드 배치 단축키";
+"Move & Resize with Mouse" = "마우스로 창 다루기";
+"Excluded Apps" = "이 앱에서는 끄기";
+"Move" = "이동";
+"Resize" = "크기조정";
+"Bring the app to the front when grabbing its window" = "창을 잡을 때 그 앱을 앞으로 가져오기";
+"Record Shortcut" = "단축키 녹화";
+"Press keys…" = "키를 누르세요…";
+"Include at least one of ⌃, ⌥ or ⌘" = "⌃·⌥·⌘ 중 하나 이상을 함께 눌러야 합니다";
+"This shortcut is reserved by the system" = "시스템에서 쓰는 단축키라 사용할 수 없습니다";
+"Another app may already be using this shortcut" = "다른 앱이 이미 사용 중일 수 있습니다";
+"Shortcuts with only ⌥ (or ⌥⇧) can block typing special characters in other apps" = "⌥만(또는 ⌥⇧) 쓰는 조합은 다른 앱의 특수문자 입력을 가로챌 수 있습니다";
+"Launch at Login" = "로그인 시 실행";
+"Open System Settings" = "시스템 설정 열기";
+"Restore Defaults…" = "기본값 복원…";
+"Resets keyboard shortcuts, mouse modifiers and bring-to-front to their defaults. Excluded apps and Launch at Login stay as they are." = "키보드 단축키, 마우스 수정자, 창 앞으로 가져오기를 기본값으로 되돌립니다. 제외 앱 목록과 로그인 시 실행은 그대로 둡니다.";
+"Select at least one modifier" = "수정자를 하나 이상 선택해야 합니다";
+"Move and Resize need different modifier combinations" = "이동과 크기조정은 서로 다른 조합이어야 합니다";
+"Already used by '%@'" = "'%@'에서 이미 쓰는 단축키입니다";
+"Allow it in %@" = "%@에서 허용이 필요합니다";
+"Available only when running as an app bundle (.app)" = "앱 번들(.app)로 실행할 때만 사용할 수 있습니다";
+"Couldn't change the login item: %@" = "로그인 항목을 바꾸지 못했습니다: %@";
+
+/* 창 배치 동작 */
+"Top Left" = "좌상단";
+"Top" = "상단";
+"Top Right" = "우상단";
+"Left" = "좌측";
+"Center" = "가운데";
+"Right" = "우측";
+"Bottom Left" = "좌하단";
+"Bottom" = "하단";
+"Bottom Right" = "우하단";
+"Fill Screen" = "전체화면 채우기";
+"Previous Display" = "왼쪽 모니터로";
+"Next Display" = "오른쪽 모니터로";
+"Undo" = "되돌리기";
+"Redo" = "다시하기";
+
+/* 제외 앱 목록 */
+"App Name" = "앱 이름";
+"Bundle ID" = "번들 ID";
+"Add App" = "앱 추가";
+"Remove Selected App" = "선택한 앱 삭제";
+"This app is already in the list" = "이미 목록에 있는 앱입니다";
+"%@ itself can't be added" = "%@ 자신은 추가할 수 없습니다";
+"Couldn't read this app's bundle ID" = "번들 ID를 읽을 수 없는 앱입니다";
+"Clear" = "지우기";

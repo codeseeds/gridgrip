@@ -8,10 +8,12 @@ enum Alerts {
     static func showPermissionAlert() -> Bool {
         let alert = NSAlert()
         alert.alertStyle = .warning
-        alert.messageText = "\(AppIdentity.displayName)에 손쉬운 사용 권한이 필요합니다"
-        alert.informativeText = "창을 옮기고 크기를 바꾸려면 시스템 설정 > 개인정보 보호 및 보안 > 손쉬운 사용에서 \(AppIdentity.displayName)를 켜 주세요."
-        alert.addButton(withTitle: "시스템 설정 열기")
-        alert.addButton(withTitle: "나중에")
+        alert.messageText = L10n.tr("%1$@ needs %2$@ permission",
+                                    AppIdentity.displayName, SystemSettingsPaths.accessibilityPermissionName())
+        alert.informativeText = L10n.tr("To move and resize windows, turn on %1$@ in %2$@.",
+                                        AppIdentity.displayName, SystemSettingsPaths.accessibilityPermission())
+        alert.addButton(withTitle: SettingsFormLayout.openSystemSettingsTitle)
+        alert.addButton(withTitle: L10n.tr("Later"))
         bringToFront()
         return alert.runModal() == .alertFirstButtonReturn
     }
@@ -20,9 +22,9 @@ enum Alerts {
         let names = apps.map(\.displayName).joined(separator: ", ")
         let alert = NSAlert()
         alert.alertStyle = .informational
-        alert.messageText = "기존 창 관리 앱이 실행 중입니다"
-        alert.informativeText = "\(names)가 실행 중이면 단축키가 겹칠 수 있습니다. 해당 앱을 종료하는 것을 권장합니다."
-        alert.addButton(withTitle: "확인")
+        alert.messageText = L10n.tr("Another window manager is running")
+        alert.informativeText = L10n.tr("While %@ is running, shortcuts may conflict. Quitting it is recommended.", names)
+        alert.addButton(withTitle: L10n.tr("OK"))
         bringToFront()
         alert.runModal()
     }

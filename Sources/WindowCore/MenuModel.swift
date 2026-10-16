@@ -70,19 +70,22 @@ public enum BaseMenuSpec {
     public static let openSystemSettingsID = "permission.openSystemSettings"
     public static let quitID = "app.quit"
 
-    public static func permissionSection(_ state: PermissionState) -> [MenuItemSpec] {
+    public static func permissionSection(_ state: PermissionState,
+                                         osMajorVersion: Int = SystemSettingsPaths.currentOSMajorVersion) -> [MenuItemSpec] {
         switch state {
         case .granted:
             return []
         case .denied:
             return [
-                MenuItemSpec(id: permissionWarningID, title: "⚠︎ 손쉬운 사용 권한이 필요합니다", isEnabled: false),
-                MenuItemSpec(id: openSystemSettingsID, title: "시스템 설정 열기…"),
+                MenuItemSpec(id: permissionWarningID, title: L10n.tr("⚠︎ %@ permission required",
+                                                                         SystemSettingsPaths.accessibilityPermissionName(osMajorVersion: osMajorVersion)),
+                             isEnabled: false),
+                MenuItemSpec(id: openSystemSettingsID, title: L10n.tr("Open System Settings…")),
             ]
         }
     }
 
     public static func appSection() -> [MenuItemSpec] {
-        [MenuItemSpec(id: quitID, title: "\(AppIdentity.displayName) 종료", keyEquivalent: "q", modifiers: [.command])]
+        [MenuItemSpec(id: quitID, title: L10n.tr("Quit %@", AppIdentity.displayName), keyEquivalent: "q", modifiers: [.command])]
     }
 }

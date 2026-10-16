@@ -7,21 +7,26 @@ final class LoginItemPresentationTests: XCTestCase {
                        LoginItemPresentation(isChecked: true, isEnabled: true, message: nil, showsOpenSettings: false))
         XCTAssertEqual(LoginItemPresentation.make(.notRegistered),
                        LoginItemPresentation(isChecked: false, isEnabled: true, message: nil, showsOpenSettings: false))
-        XCTAssertEqual(LoginItemPresentation.make(.requiresApproval),
+        XCTAssertEqual(LoginItemPresentation.make(.requiresApproval, osMajorVersion: 14),
                        LoginItemPresentation(isChecked: true, isEnabled: true,
-                                             message: "시스템 설정 > 일반 > 로그인 항목에서 허용이 필요합니다",
+                                             message: "Allow it in System Settings > General > Login Items",
                                              showsOpenSettings: true))
         XCTAssertEqual(LoginItemPresentation.make(.notFound),
                        LoginItemPresentation(isChecked: false, isEnabled: false,
-                                             message: "앱 번들(.app)로 실행할 때만 사용할 수 있습니다",
+                                             message: "Available only when running as an app bundle (.app)",
                                              showsOpenSettings: false))
+    }
+
+    func testRequiresApprovalPointsToLoginItemsAndExtensionsFromMacOS15() {
+        XCTAssertEqual(LoginItemPresentation.make(.requiresApproval, osMajorVersion: 15).message,
+                       "Allow it in System Settings > General > Login Items & Extensions")
     }
 
     func testAfterToggleFailure() {
         let failed = LoginItemPresentation.afterToggle(actual: .notRegistered, errorDescription: "Operation not permitted")
         XCTAssertFalse(failed.isChecked)
         XCTAssertTrue(failed.isEnabled)
-        XCTAssertEqual(failed.message, "로그인 항목을 바꾸지 못했습니다: Operation not permitted")
+        XCTAssertEqual(failed.message, "Couldn't change the login item: Operation not permitted")
 
         XCTAssertEqual(LoginItemPresentation.afterToggle(actual: .enabled, errorDescription: nil), LoginItemPresentation.make(.enabled))
     }

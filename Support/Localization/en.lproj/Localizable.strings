@@ -1,0 +1,2 @@
+/* English is the source language: every key in the code is already the English text, so this table is empty.
+   It exists so that macOS lists English as an available localization of the app. */

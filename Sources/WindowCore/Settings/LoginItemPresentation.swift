@@ -11,8 +11,11 @@ public enum LoginItemStatus: Equatable {
 
 /// 메뉴·설정 창 공통 로그인 항목 표시값.
 public struct LoginItemPresentation: Equatable {
-    public static let requiresApprovalMessage = "시스템 설정 > 일반 > 로그인 항목에서 허용이 필요합니다"
-    public static let notBundledMessage = "앱 번들(.app)로 실행할 때만 사용할 수 있습니다"
+    public static func requiresApprovalMessage(osMajorVersion: Int = SystemSettingsPaths.currentOSMajorVersion) -> String {
+        L10n.tr("Allow it in %@", SystemSettingsPaths.loginItems(osMajorVersion: osMajorVersion))
+    }
+
+    public static var notBundledMessage: String { L10n.tr("Available only when running as an app bundle (.app)") }
 
     public var isChecked: Bool
     public var isEnabled: Bool
@@ -26,14 +29,15 @@ public struct LoginItemPresentation: Equatable {
         self.showsOpenSettings = showsOpenSettings
     }
 
-    public static func make(_ status: LoginItemStatus) -> LoginItemPresentation {
+    public static func make(_ status: LoginItemStatus,
+                            osMajorVersion: Int = SystemSettingsPaths.currentOSMajorVersion) -> LoginItemPresentation {
         switch status {
         case .enabled:
             return LoginItemPresentation(isChecked: true, isEnabled: true, message: nil, showsOpenSettings: false)
         case .notRegistered:
             return LoginItemPresentation(isChecked: false, isEnabled: true, message: nil, showsOpenSettings: false)
         case .requiresApproval:
-            return LoginItemPresentation(isChecked: true, isEnabled: true, message: requiresApprovalMessage, showsOpenSettings: true)
+            return LoginItemPresentation(isChecked: true, isEnabled: true, message: requiresApprovalMessage(osMajorVersion: osMajorVersion), showsOpenSettings: true)
         case .notFound:
             return LoginItemPresentation(isChecked: false, isEnabled: false, message: notBundledMessage, showsOpenSettings: false)
         }
@@ -43,7 +47,7 @@ public struct LoginItemPresentation: Equatable {
     public static func afterToggle(actual: LoginItemStatus, errorDescription: String?) -> LoginItemPresentation {
         var presentation = make(actual)
         if let errorDescription {
-            presentation.message = "로그인 항목을 바꾸지 못했습니다: \(errorDescription)"
+            presentation.message = L10n.tr("Couldn't change the login item: %@", errorDescription)
         }
         return presentation
     }
