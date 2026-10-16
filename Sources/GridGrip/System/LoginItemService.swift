@@ -8,6 +8,10 @@ struct LoginItemService {
     /// 번들(.app) 밖 실행(`swift run`)이면 `.notFound` — 실행 파일 자체를 로그인 항목으로 등록하지 않는다.
     var status: LoginItemStatus {
         guard isBundledApp else { return .notFound }
+        return LoginItemStatus.resolve(isBundledApp: true, serviceStatus: serviceStatus)
+    }
+
+    private var serviceStatus: LoginItemStatus {
         switch SMAppService.mainApp.status {
         case .enabled: return .enabled
         case .notRegistered: return .notRegistered

@@ -82,18 +82,27 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Shor
         stack.spacing = 10
         stack.edgeInsets = NSEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         stack.translatesAutoresizingMaskIntoConstraints = false
+        let horizontalInsets = stack.edgeInsets.left + stack.edgeInsets.right
 
         for (index, section) in SettingsFormLayout.sections.enumerated() {
             if index > 0 {
                 let separator = NSBox()
                 separator.boxType = .separator
                 stack.addArrangedSubview(separator)
-                separator.widthAnchor.constraint(equalTo: stack.widthAnchor, constant: -40).isActive = true
+                separator.widthAnchor.constraint(equalTo: stack.widthAnchor, constant: -horizontalInsets).isActive = true
             }
             if let title = section.title {
                 stack.addArrangedSubview(SettingsLabels.sectionTitle(title))
             }
-            stack.addArrangedSubview(view(for: section))
+            let content = view(for: section)
+            stack.addArrangedSubview(content)
+            // 세로 스택은 내용이 오른쪽 여백을 넘어도 막지 않는다. 모든 섹션을 구분선 폭 안에 두고,
+            // 오른쪽 끝을 쓰는 섹션(제외 앱 표, 로그인·기본값 복원 줄)은 구분선과 같은 폭으로 맞춘다.
+            if section == .excludedApps || section == .general {
+                content.widthAnchor.constraint(equalTo: stack.widthAnchor, constant: -horizontalInsets).isActive = true
+            } else {
+                content.widthAnchor.constraint(lessThanOrEqualTo: stack.widthAnchor, constant: -horizontalInsets).isActive = true
+            }
         }
 
         let container = NSView()
@@ -163,13 +172,12 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Shor
         spacer.setContentHuggingPriority(.defaultLow, for: .horizontal)
         let topRow = NSStackView(views: [loginCheckbox, spacer, restoreButton])
         topRow.orientation = .horizontal
-        topRow.translatesAutoresizingMaskIntoConstraints = false
-        topRow.widthAnchor.constraint(equalToConstant: 560).isActive = true
 
         let stack = NSStackView(views: [topRow, loginMessageLabel, openLoginSettingsButton])
         stack.orientation = .vertical
         stack.alignment = .leading
         stack.spacing = 6
+        topRow.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         return stack
     }
 
@@ -184,6 +192,19 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Shor
             lines.append("⚠ \(names): \(SettingsFormLayout.registrationFailureMessage)")
         }
         shortcutWarningLabel.stringValue = lines.joined(separator: "\n")
+        fitWindowToContent()
+    }
+
+    /// 경고 줄·로그인 안내가 나타나거나 사라지면 창 높이를 내용에 맞춘다(위쪽 가장자리는 그대로).
+    /// 맞추지 않으면 남는 높이가 단축키 격자 줄 사이에 끼어 간격이 벌어진다.
+    private func fitWindowToContent() {
+        guard didBuildWindow, let window, let content = window.contentView else { return }
+        content.layoutSubtreeIfNeeded()
+        let size = content.fittingSize
+        guard size != content.frame.size else { return }
+        var frame = window.frameRect(forContentRect: NSRect(origin: .zero, size: size))
+        frame.origin = NSPoint(x: window.frame.minX, y: window.frame.maxY - frame.height)
+        window.setFrame(frame, display: true)
     }
 
     // MARK: - 로그인 항목
@@ -202,6 +223,7 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Shor
         loginMessageLabel.stringValue = presentation.message ?? ""
         loginMessageLabel.isHidden = presentation.message == nil
         openLoginSettingsButton.isHidden = !presentation.showsOpenSettings
+        fitWindowToContent()
     }
 
     @objc private func loginItemToggled(_ sender: NSButton) {

@@ -54,7 +54,6 @@ final class ExcludedAppsSection: NSObject, NSTableViewDataSource, NSTableViewDel
         scroll.borderType = .bezelBorder
         scroll.translatesAutoresizingMaskIntoConstraints = false
         scroll.heightAnchor.constraint(equalToConstant: 110).isActive = true
-        scroll.widthAnchor.constraint(equalToConstant: 520).isActive = true
 
         let addButton = NSButton(image: NSImage(systemSymbolName: "plus", accessibilityDescription: L10n.tr("Add App"))!,
                                  target: self, action: #selector(addClicked(_:)))
@@ -68,6 +67,8 @@ final class ExcludedAppsSection: NSObject, NSTableViewDataSource, NSTableViewDel
         let stack = NSStackView(views: [scroll, buttons, messageLabel])
         stack.orientation = .vertical
         stack.alignment = .leading
+        // 표는 섹션 폭(= 구분선 폭)을 꽉 채운다. 섹션 폭은 설정 창이 정한다.
+        scroll.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         stack.spacing = 6
         refresh()
         return stack
