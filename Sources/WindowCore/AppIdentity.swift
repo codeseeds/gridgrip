@@ -5,5 +5,5 @@ public enum AppIdentity {
     public static let bundleIdentifier = "com.blackpet.GridGrip"
     public static let displayName = "GridGrip"
     public static let executableName = "GridGrip"
-    public static let version = "0.1.0"
+    public static let version = "0.2.0"
 }

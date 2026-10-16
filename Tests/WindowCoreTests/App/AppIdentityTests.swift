@@ -7,7 +7,7 @@ final class AppIdentityTests: XCTestCase {
         XCTAssertEqual(AppIdentity.bundleIdentifier, "com.blackpet.GridGrip")
         XCTAssertEqual(AppIdentity.displayName, "GridGrip")
         XCTAssertEqual(AppIdentity.executableName, "GridGrip")
-        XCTAssertEqual(AppIdentity.version, "0.1.0")
+        XCTAssertEqual(AppIdentity.version, "0.2.0")
     }
 
     func testInfoPlistTemplateMatchesIdentity() throws {

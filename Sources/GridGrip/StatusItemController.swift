@@ -18,9 +18,7 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         super.init()
 
         if let button = statusItem.button {
-            let image = NSImage(systemSymbolName: "macwindow", accessibilityDescription: AppIdentity.displayName)
-            image?.isTemplate = true
-            button.image = image
+            button.image = Self.makeIcon()
             button.setAccessibilityLabel(AppIdentity.displayName)
         }
         menu.autoenablesItems = false
@@ -67,6 +65,29 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         case BaseMenuSpec.quitID: return #selector(quitSelected(_:))
         default: return nil
         }
+    }
+
+    /// 앱 아이콘의 격자를 단색 템플릿으로 그린다. 색은 메뉴바 모양(라이트·다크·강조)에 맞춰 시스템이 입힌다.
+    private static func makeIcon() -> NSImage {
+        let size = StatusIconGlyph.canvasSize
+        let image = NSImage(size: NSSize(width: size, height: size), flipped: true) { _ in
+            let radius = StatusIconGlyph.cornerRadius()
+            for cell in StatusIconGlyph.cells() {
+                let path = NSBezierPath(roundedRect: cell.rect, xRadius: radius, yRadius: radius)
+                if cell.rotationDegrees != 0 {
+                    var transform = AffineTransform(translationByX: cell.rect.midX, byY: cell.rect.midY)
+                    transform.rotate(byDegrees: cell.rotationDegrees)
+                    transform.translate(x: -cell.rect.midX, y: -cell.rect.midY)
+                    path.transform(using: transform)
+                }
+                NSColor.black.withAlphaComponent(cell.opacity).setFill()
+                path.fill()
+            }
+            return true
+        }
+        image.isTemplate = true
+        image.accessibilityDescription = AppIdentity.displayName
+        return image
     }
 
     private static func modifierFlags(_ modifiers: MenuModifiers) -> NSEvent.ModifierFlags {
